@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 
@@ -25,6 +26,9 @@ public class FeeCampaign {
         @Column(nullable = false, length = 100)
         private String category;
 
+        @Column(nullable = false, precision = 12, scale = 2)
+        private BigDecimal defaultAmount;
+
         private Integer capacity;
 
         @Enumerated(EnumType.STRING)
@@ -43,12 +47,14 @@ public class FeeCampaign {
         public FeeCampaign(
                 String name,
                 String category,
+                BigDecimal defaultAmount,
                 Integer capacity,
                 FeeCampaignStaus feeCampaignStaus,
                 Instant startsAt,
                 Instant endsAt
                 ) {
             this.name = name;
+            this.defaultAmount = defaultAmount;
             this.capacity = capacity;
             this.category = category;
             this.feeCampaignStaus = feeCampaignStaus;

@@ -12,6 +12,12 @@ import java.util.Map;
 @RestControllerAdvice // 모든 컨트롤러의 예외를 여기서 처리
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<Map<String, String>> handleBadRequest(BadRequestException exception) {
+        return ResponseEntity.badRequest()
+                .body(Map.of("message", exception.getMessage()));
+    }
+
     @ExceptionHandler(NotFoundException.class) // 대상을 찾지 못했을 때
     public ResponseEntity<Map<String, String>> handleNotFound(NotFoundException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
