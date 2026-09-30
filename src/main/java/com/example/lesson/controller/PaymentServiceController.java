@@ -5,6 +5,8 @@ import com.example.lesson.dto.PaymentCreateResponse;
 import com.example.lesson.dto.PaymentSummaryResponse;
 import com.example.lesson.service.PaymentService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,18 @@ public class PaymentServiceController {
     public PaymentSummaryResponse getSummary(
             @PathVariable("campaignMemberId") Long campaignMemberId) {
         return paymentService.getSummary(campaignMemberId);
+    }
+
+    @GetMapping("/fee-campaigns/{feeCampaignId}/payment-summary")
+    public Page<PaymentSummaryResponse> getSummaries(
+            @PathVariable Long feeCampaignId,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        return paymentService.getSummaries(
+                feeCampaignId,
+                PageRequest.of(page,size)
+        );
     }
 }
 

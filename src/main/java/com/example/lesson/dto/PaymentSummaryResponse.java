@@ -8,4 +8,7 @@ public record PaymentSummaryResponse(
         BigDecimal expectedAmount,
         BigDecimal paidAmount
 ) {
+    public PaymentSummaryResponse {
+        paidAmount = (paidAmount != null) ? paidAmount : BigDecimal.ZERO;
+    }
 }

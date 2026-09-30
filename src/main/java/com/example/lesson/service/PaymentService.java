@@ -1,6 +1,7 @@
 package com.example.lesson.service;
 
 import com.example.lesson.domain.CampaignMember;
+import com.example.lesson.domain.FeeCampaign;
 import com.example.lesson.domain.Payment;
 import com.example.lesson.dto.PaymentCreateRequest;
 import com.example.lesson.dto.PaymentCreateResponse;
@@ -8,6 +9,8 @@ import com.example.lesson.dto.PaymentSummaryResponse;
 import com.example.lesson.exception.NotFoundException;
 import com.example.lesson.repository.CampaignMemberRepository;
 import com.example.lesson.repository.PaymentRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -54,6 +57,15 @@ public class PaymentService {
                 campaignMember.getApplicantName(),
                 campaignMember.getExpectedAmount(),
                 paidAmount
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public Page<PaymentSummaryResponse> getSummaries (
+            Long feeCampaignId, Pageable pageable
+    ) {
+        return campaignMemberRepository.findPaymentSummaries(
+                feeCampaignId,pageable
         );
     }
 
